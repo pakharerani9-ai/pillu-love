@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Pillu ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    text-align: center;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* MOBILE FRIENDLY */
+.container {
+    padding: 20px;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 38px;
+}
+
+h2 {
+    font-weight: 400;
+}
+
+/* PHOTO */
+.photo img {
+    width: 85%;
+    max-width: 300px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-top: 15px;
+    transition: 0.5s;
+}
+
+.photo img:hover {
+    transform: scale(1.05);
+}
+
+/* GLASS BOX */
+.love-box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+/* BUTTON */
+button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 25px;
+    background: #ff1744;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff0033;
+    transform: scale(1.1);
+}
+
+/* COUNTDOWN */
+.countdown {
+    font-size: 18px;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+/* REASONS */
+.reasons {
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* FLOATING HEARTS */
+.heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100vh); }
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    font-weight: 500;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio autoplay loop>
+  <source src="Dooron_Dooron.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<h1>For My Pillu ❤️</h1>
+<h2>Amit, My Forever Love 💕</h2>
+
+<div class="photo">
+    <img src="love.jpeg" alt="Our Photo">
+</div>
+
+<div class="love-box">
+
+<p>Our journey started on <b>12/07/2026</b> 💖</p>
+
+<div class="countdown" id="countdown"></div>
+
+<button onclick="showReasons()">🌹 100 Reasons I Love You</button>
+
+<div class="reasons" id="reasons" style="display:none;"></div>
+
+</div>
+
+<div class="footer">
+Forever yours, <b>Samiksha</b> 💖
+</div>
+
+</div>
+
+<script>
+
+/* COUNTDOWN (Next Valentine 14 Feb 2026 example) */
+var countDate = new Date("Feb 14, 2026 00:00:00").getTime();
+
+var x = setInterval(function() {
+  var now = new Date().getTime();
+  var distance = countDate - now;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+  document.getElementById("countdown").innerHTML =
+  "Countdown to our next Valentine 💘: " +
+  days + "d " + hours + "h " + minutes + "m ";
+
+}, 1000);
+
+
+/* 100 REASONS */
+function showReasons() {
+    var box = document.getElementById("reasons");
+    box.style.display = "block";
+
+    if (box.innerHTML === "") {
+        for (let i = 1; i <= 100; i++) {
+            box.innerHTML += "❤️ Reason " + i + ": Because you make my world beautiful.<br>";
+        }
+    }
+}
+
+/* FLOATING HEARTS */
+setInterval(function() {
+    var heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(function() {
+        heart.remove();
+    }, 6000);
+}, 400);
+
+</script>
+
+</body>
+</html>
