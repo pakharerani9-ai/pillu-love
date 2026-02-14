@@ -11,208 +11,365 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
     text-align: center;
     color: white;
     overflow-x: hidden;
+    background: linear-gradient(-45deg, #ff758c, #ff7eb3, #ff4e8e, #ff99ac);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
 }
 
-/* MOBILE FRIENDLY */
-.container {
-    padding: 20px;
+.sparkle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: floatSparkle 8s linear infinite;
 }
 
-h1 {
-    font-family: 'Pacifico', cursive;
-    font-size: 38px;
+@keyframes floatSparkle {
+    from {
+        transform: translateY(100vh);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
 }
 
-h2 {
-    font-weight: 400;
+
+/* Animated Gradient */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* PHOTO */
-.photo img {
+
+/* PASSWORD SCREEN */
+#passwordScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #ff758c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+input {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #ff1744;
+    color: white;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* SLIDESHOW */
+.slideshow img {
     width: 85%;
     max-width: 300px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    margin-top: 15px;
-    transition: 0.5s;
+    margin-top: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.photo img:hover {
-    transform: scale(1.05);
-}
-
-/* GLASS BOX */
-.love-box {
+/* LOVE LETTER */
+.love-letter {
     background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 20px;
-    margin: 20px auto;
-    max-width: 500px;
+    margin: 20px;
 }
 
-/* BUTTON */
-button {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 25px;
-    background: #ff1744;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #ff0033;
-    transform: scale(1.1);
-}
-
-/* COUNTDOWN */
-.countdown {
-    font-size: 18px;
-    margin-top: 15px;
-    font-weight: 600;
-}
-
-/* REASONS */
-.reasons {
-    text-align: left;
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 15px;
-    font-size: 14px;
-}
-
-/* FLOATING HEARTS */
+/* HEARTS */
 .heart {
     position: fixed;
-    bottom: -10px;
     font-size: 20px;
-    animation: float 6s linear infinite;
+    animation: explode 1s ease-out forwards;
 }
 
-@keyframes float {
+@keyframes explode {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(3); opacity: 0; }
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff99cc; }
+    to { text-shadow: 0 0 30px #ff0066; }
+}
+
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff99cc; }
+    to { text-shadow: 0 0 30px #ff0066; }
+}
+
+/* Forever floating text */
+.foreverText {
+    position: fixed;
+    bottom: 20px;
+    font-size: 24px;
+    animation: floatUp 4s ease forwards;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-200px); opacity: 0; }
+}
+
+/* Rose */
+.rose {
+    position: fixed;
+    top: -20px;
+    font-size: 20px;
+    animation: fallRose 6s linear forwards;
+}
+
+@keyframes fallRose {
     from { transform: translateY(0); }
-    to { transform: translateY(-100vh); }
+    to { transform: translateY(100vh); }
 }
 
-/* Footer */
-.footer {
-    margin-top: 30px;
-    font-weight: 500;
-}
 </style>
 </head>
 
-<body>
+<body onclick="heartExplosion(event)">
 
-<!-- BACKGROUND MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="./Dooron_Dooron.mp3" type="audio/mpeg">
-</audio>
+<!-- PASSWORD LOCK -->
+<div id="passwordScreen">
+    <h2>Enter Our Secret Word 💕</h2>
+    <input type="password" id="passwordInput" placeholder="Secret...">
+    <button onclick="checkPassword()">Unlock ❤️</button>
+</div>
 
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none;">
+
+<h1 style="font-family:'Pacifico',cursive;">For My Pillu ❤️</h1>
+<h2>Amit, My Forever Love 💕</h2>
+
+<!-- MUSIC -->
 <button id="musicBtn" style="position:fixed; top:15px; right:15px; z-index:1000;">
 🎵 Play Music
 </button>
 
-<script>
-const music = document.getElementById("bgMusic");
-const btn = document.getElementById("musicBtn");
-
-btn.addEventListener("click", function () {
-    music.play().then(() => {
-        btn.innerHTML = "💖 Music Playing";
-    }).catch(error => {
-        alert("Tap again to allow music ❤️");
-    });
-});
-</script>
+<audio id="bgMusic" loop>
+  <source src="Dooron_Dooron.mp3" type="audio/mpeg">
+</audio>
 
 
-
-<div class="container">
-
-<h1>For My Pillu ❤️</h1>
-<h2>Amit, My Forever Love 💕</h2>
-
-<div class="photo">
-    <img src="love.jpeg" alt="Our Photo">
+<!-- SLIDESHOW -->
+<div class="slideshow">
+    <img id="slide" src="love1.jpeg" style="transition: opacity 1s;">
 </div>
 
-<div class="love-box">
 
-<p>Our journey started on <b>12/07/2026</b> 💖</p>
+<!-- LOVE LETTER -->
+<div class="love-letter">
+<p>
+My Pillu ❤️  
+From the day we met, my world became brighter.  
+You are my comfort, my happiness, my safest place.  
+I promise to walk beside you forever.  
+No matter what life brings, I choose you. Always. 💖
+</p>
+</div>
 
-<div class="countdown" id="countdown"></div>
-
-<button onclick="showReasons()">🌹 100 Reasons I Love You</button>
-
-<div class="reasons" id="reasons" style="display:none;"></div>
+<button onclick="proposal()">💍 Will You Stay With Me Forever?</button>
 
 </div>
 
-<div class="footer">
-Forever yours, <b>Samiksha</b> 💖
-</div>
-
-</div>
+<!-- CONFETTI LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
-/* COUNTDOWN (Next Valentine 14 Feb 2026 example) */
-var countDate = new Date("Feb 14, 2026 00:00:00").getTime();
-
-var x = setInterval(function() {
-  var now = new Date().getTime();
-  var distance = countDate - now;
-
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-  document.getElementById("countdown").innerHTML =
-  "Countdown to our next Valentine 💘: " +
-  days + "d " + hours + "h " + minutes + "m ";
-
-}, 1000);
-
-
-/* 100 REASONS */
-function showReasons() {
-    var box = document.getElementById("reasons");
-    box.style.display = "block";
-
-    if (box.innerHTML === "") {
-        for (let i = 1; i <= 100; i++) {
-            box.innerHTML += "❤️ Reason " + i + ": Because you make my world beautiful.<br>";
-        }
+/* PASSWORD CHECK */
+function checkPassword() {
+    var pass = document.getElementById("passwordInput").value;
+    if(pass === "Amiksha") {   // your password
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+        document.getElementById("bgMusic").play();
+    } else {
+        alert("Wrong password 😝 Try again!");
     }
 }
 
-/* FLOATING HEARTS */
-setInterval(function() {
+
+/* SLIDESHOW */
+var images = ["love1.jpeg", "love2.jpeg", "love3.jpeg", "love4.jpeg"];
+var i = 0;
+
+setInterval(function(){
+    var slide = document.getElementById("slide");
+    slide.style.opacity = 0;
+
+    setTimeout(function(){
+        i = (i + 1) % images.length;
+        slide.src = images[i];
+        slide.style.opacity = 1;
+    }, 500);
+
+}, 3000);
+
+/* HEART EXPLOSION */
+function heartExplosion(e) {
     var heart = document.createElement("div");
     heart.className = "heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.innerHTML = "💖";
+    heart.style.left = e.clientX + "px";
+    heart.style.top = e.clientY + "px";
     document.body.appendChild(heart);
 
-    setTimeout(function() {
+    setTimeout(function(){
         heart.remove();
-    }, 6000);
-}, 400);
+    },1000);
+}
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+musicBtn.addEventListener("click", function () {
+    music.play().then(() => {
+        musicBtn.innerHTML = "💖 Music Playing";
+    }).catch(() => {
+        alert("Tap again to allow music ❤️");
+    });
+});
+
+// Floating Sparkles
+setInterval(function(){
+    var sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+    sparkle.style.left = Math.random() * 100 + "vw";
+    sparkle.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    document.body.appendChild(sparkle);
+
+    setTimeout(function(){
+        sparkle.remove();
+    }, 8000);
+}, 300);
+
+<!--PROPOSAL-- >
+
+function proposal() {
+
+    var overlay = document.createElement("div");
+    overlay.id = "proposalOverlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.85)";
+    overlay.style.display = "flex";
+    overlay.style.flexDirection = "column";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "9999";
+    overlay.style.color = "white";
+    overlay.style.textAlign = "center";
+    overlay.style.padding = "20px";
+
+    overlay.innerHTML = `
+        <h1 style="font-size:42px; animation: glow 1.5s infinite alternate;">
+            💖 YES 💖
+        </h1>
+        <p style="font-size:20px; max-width:320px;">
+            Forever starts today, my love.  
+            I choose you. Every lifetime. 💍
+        </p>
+        <button onclick="closeProposal()" style="margin-top:20px;">
+            Close 💕
+        </button>
+    `;
+
+    document.body.appendChild(overlay);
+
+    confetti({
+        particleCount: 300,
+        spread: 150,
+        origin: { y: 0.6 }
+    });
+}
+
+function closeProposal() {
+
+    // Fade out overlay
+    var overlay = document.getElementById("proposalOverlay");
+    overlay.style.opacity = "0";
+    overlay.style.transition = "opacity 0.5s ease";
+
+    setTimeout(function() {
+        overlay.remove();
+    }, 500);
+
+    // Change button text
+    var btn = document.querySelector("button[onclick='proposal()']");
+    btn.innerHTML = "💍 Engaged 💍";
+    btn.style.background = "#ff66a3";
+
+    // Increase music volume slightly
+    var music = document.getElementById("bgMusic");
+    if (music) {
+        music.volume = 0.8;
+    }
+
+    // Show Forever text
+    showForeverText();
+
+    // Start rose rain
+    roseRain();
+}
+
+function showForeverText() {
+    var text = document.createElement("div");
+    text.className = "foreverText";
+    text.innerHTML = "💍 Forever 💍";
+    text.style.left = Math.random() * 80 + "vw";
+    document.body.appendChild(text);
+
+    setTimeout(function(){
+        text.remove();
+    }, 4000);
+}
+
+function roseRain() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(function(){
+            var rose = document.createElement("div");
+            rose.className = "rose";
+            rose.innerHTML = "🌹";
+            rose.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(rose);
+
+            setTimeout(function(){
+                rose.remove();
+            }, 6000);
+        }, i * 200);
+    }
+}
+
+
 
 </script>
 
 </body>
 </html>
-
-
-
