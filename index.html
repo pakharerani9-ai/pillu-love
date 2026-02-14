@@ -114,18 +114,26 @@ button:hover {
 
 <!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
-  <source src="Dooron_Dooron.mp3" type="audio/mpeg">
+  <source src="./Dooron_Dooron.mp3" type="audio/mpeg">
 </audio>
 
-<button onclick="playMusic()" style="position:fixed; top:15px; right:15px; z-index:1000;">
+<button id="musicBtn" style="position:fixed; top:15px; right:15px; z-index:1000;">
 🎵 Play Music
 </button>
 
 <script>
-function playMusic() {
-  document.getElementById("bgMusic").play();
-}
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+
+btn.addEventListener("click", function () {
+    music.play().then(() => {
+        btn.innerHTML = "💖 Music Playing";
+    }).catch(error => {
+        alert("Tap again to allow music ❤️");
+    });
+});
 </script>
+
 
 
 <div class="container">
@@ -205,5 +213,6 @@ setInterval(function() {
 
 </body>
 </html>
+
 
 
